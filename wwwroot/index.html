@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Still Waters Fine Line Tattoo — botanical, fine line, script and micro tattoos by appointment in Peoria, Arizona." />
+    <title>Still Waters Fine Line Tattoo</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <base href="/" />
+    <link rel="preload" id="webassembly" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Alex+Brush&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/app.css" />
+    <!-- If you add any scoped CSS files, uncomment the following to load them
+    <link href="StillWatersTattoo.styles.css" rel="stylesheet" /> -->
+    <script type="importmap"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div class="boot-screen">
+            <span class="boot-mark">SW</span>
+            <svg class="loading-progress">
+                <circle r="40%" cx="50%" cy="50%" />
+                <circle r="40%" cx="50%" cy="50%" />
+            </svg>
+            <div class="loading-progress-text"></div>
+        </div>
+    </div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="." class="reload">Reload</a>
+        <span class="dismiss">🗙</span>
+    </div>
+    <script src="_framework/blazor.webassembly#[.{fingerprint}].js"></script>
+    <script src="js/site.js"></script>
+</body>
+
+</html>

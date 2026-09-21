@@ -1,0 +1,40 @@
+<header class="site-header">
+    <NavLink href="/" Match="NavLinkMatch.All" class="brand">
+        <span class="brand-mark">SW</span>
+        <span class="brand-name">Still Waters Tattoo</span>
+    </NavLink>
+
+    <ul class="nav-links">
+        <li><NavLink href="/" Match="NavLinkMatch.All">Home</NavLink></li>
+        <li><NavLink href="/portfolio">Portfolio</NavLink></li>
+        <li><NavLink href="/book">Book</NavLink></li>
+        <li>
+            <a class="nav-social" href="https://instagram.com/stillwaters.tattoo" target="_blank" rel="noopener" aria-label="Still Waters Fine Line Tattoo on Instagram">
+                <svg viewBox="0 0 24 24">
+                    <rect x="3" y="3" width="18" height="18" rx="5" />
+                    <circle cx="12" cy="12" r="4.2" />
+                    <circle class="ig-dot" cx="17.3" cy="6.7" r="0.9" />
+                </svg>
+            </a>
+        </li>
+    </ul>
+
+    <button class="nav-toggle @(_open ? "open" : "")" aria-label="Toggle menu" @onclick="Toggle">
+        <span></span><span></span><span></span>
+    </button>
+</header>
+
+<div class="nav-scrim @(_open ? "open" : "")" @onclick="Close"></div>
+<nav class="nav-mobile @(_open ? "open" : "")">
+    <NavLink href="/" Match="NavLinkMatch.All" @onclick="Close">Home</NavLink>
+    <NavLink href="/portfolio" @onclick="Close">Portfolio</NavLink>
+    <NavLink href="/book" @onclick="Close">Book</NavLink>
+    <a href="https://instagram.com/stillwaters.tattoo" target="_blank" rel="noopener">Instagram</a>
+</nav>
+
+@code {
+    private bool _open;
+
+    private void Toggle() => _open = !_open;
+    private void Close() => _open = false;
+}

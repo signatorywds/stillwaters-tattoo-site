@@ -1,0 +1,105 @@
+@page "/"
+@inject IJSRuntime JS
+
+<PageTitle>Still Waters Fine Line Tattoo — Peoria, AZ</PageTitle>
+
+<section class="hero">
+    <div class="hero-watermark"><TabithaFlowerArt /></div>
+    <div class="hero-watermark-secondary"><HummingbirdArt /></div>
+    <div class="hero-watermark-tertiary"><MoonArt /></div>
+    <div class="hero-watermark-quaternary"><RoseArt /></div>
+    <div class="hero-watermark-fifth"><ButterflyArt /></div>
+    <div class="hero-watermark-sixth"><HeartArt /></div>
+    <div class="hero-brandmark">
+        <div class="hero-monogram">SW</div>
+        <h1 class="hero-title">Still Waters</h1>
+    </div>
+    <p class="hero-subtitle">Fine Line Tattoo</p>
+    <div class="diamond-divider"><span class="bar"></span><span class="cross"></span><span class="bar"></span></div>
+    <p class="script-line hero-tagline">Beauty for the body, meaning for the soul.</p>
+    <div class="hero-cta"><a class="ink-link" href="/book">Book a Session <span class="arrow">&rarr;</span></a></div>
+    <div class="scroll-cue">
+        <span class="eyebrow">Scroll</span>
+        <div class="scroll-cue-line"></div>
+    </div>
+</section>
+
+<WaveDivider Fill="var(--cream-deep)" />
+
+<section id="about" class="section tone-deep">
+    <div class="section-inner split reveal">
+        <div class="split-media">
+            <div class="photo-frame portrait-frame">
+                <div class="photo-frame-clip">
+                    <img src="Assets/Photos/tabitha-portrait.jpg" alt="Tabitha, the artist behind Still Waters Fine Line Tattoo" />
+                </div>
+            </div>
+        </div>
+        <div>
+            <span class="eyebrow">The Artist</span>
+            <h2>Meet Tabitha</h2>
+            <p class="lede drop-cap">Hi, I’m Tabitha, the artist behind Still Waters Fine Line Tattoo.</p>
+            <p>After proudly serving 20 years in the United States Air Force, I found myself returning to something I’ve loved my entire life—art. I’ve been drawing and creating for as long as I can remember, and fine-line tattooing has given me a beautiful new way to turn that lifelong passion into something meaningful.</p>
+            <p>I specialize in delicate, intentional tattoos that tell a story—whether they represent someone you love, a special memory, your faith, a new beginning, or simply something that feels like you.</p>
+            <p>As I begin this new chapter as a tattoo artist, I bring with me the patience, precision, and attention to detail that have shaped so much of my life. My goal is to create a relaxed, welcoming experience where you feel heard and comfortable from the moment you walk in.</p>
+            <p>It’s truly an honor to create something you’ll carry with you forever.</p>
+            <p class="script-line">&mdash; Tabitha</p>
+        </div>
+    </div>
+</section>
+
+<WaveDivider Fill="var(--cream)" Flip="true" />
+
+<section id="specialties" class="section">
+    <div class="section-inner reveal">
+        <div class="section-head">
+            <span class="eyebrow">Specialties</span>
+            <h2>What I Tattoo</h2>
+        </div>
+        <div class="specialties">
+            <div class="specialty"><SprigArt /><span>Botanical</span></div>
+            <div class="specialty"><SparkleArt /><span>Fine Line</span></div>
+            <div class="specialty"><div class="specialty-script">faith</div><span>Script</span></div>
+            <div class="specialty"><MicroMachineArt /><span>Micro</span></div>
+        </div>
+    </div>
+</section>
+
+<WaveDivider Fill="var(--cream-deep)" />
+
+<section id="gallery" class="section tone-deep">
+    <div class="section-inner reveal">
+        <div class="section-head">
+            <span class="eyebrow">Recent Work</span>
+            <h2>A Glimpse of the Portfolio</h2>
+        </div>
+        <div class="gallery-flow">
+            <figure><div class="ink-frame blob-1 size-md tilt-r"><SprigArt /></div></figure>
+            <figure><div class="ink-frame blob-3 size-sm"><DragonflyArt /></div></figure>
+            <figure><div class="ink-frame blob-4 size-tall tilt-l"><WaveStackArt /></div></figure>
+            <figure><div class="ink-frame blob-2 size-wide"><DesertArt /></div></figure>
+            <figure><div class="ink-frame blob-5 size-md tilt-r"><ScriptWordArt Word="love" /></div></figure>
+        </div>
+        <div class="center mt-lg">
+            <a class="ink-link" href="/portfolio">View Full Portfolio <span class="arrow">&rarr;</span></a>
+        </div>
+    </div>
+</section>
+
+<WaveDivider Fill="var(--blush)" Flip="true" />
+
+<section id="offer" class="offer-band reveal">
+    <span class="eyebrow">New Clients</span>
+    <h2>Enjoy $25 off your first tattoo</h2>
+    <p>Mention this site when you request your appointment.</p>
+</section>
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("site.initReveal");
+        }
+    }
+}

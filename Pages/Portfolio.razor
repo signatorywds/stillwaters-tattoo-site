@@ -1,0 +1,115 @@
+@page "/portfolio"
+@inject IJSRuntime JS
+
+<PageTitle>Portfolio — Still Waters Fine Line Tattoo</PageTitle>
+
+<section class="section">
+    <div class="section-inner center reveal max-prose mx-auto">
+        <span class="eyebrow">Portfolio</span>
+        <h1>A Look at the Work</h1>
+        <p class="lede">A small sample of botanical, fine line, script, and micro pieces. Every tattoo is designed from scratch for the person wearing it. Hover an image to see its style.</p>
+    </div>
+</section>
+
+<section class="section tone-deep">
+    <div class="section-inner">
+        <div class="gallery-flow reveal">
+            <figure>
+                <div class="ink-frame blob-3 size-wide tilt-r"><TabithaFlowerArt /><span class="style-tag">Botanical</span></div>
+                <figcaption class="gallery-caption">flower</figcaption>
+            </figure>
+            <figure>
+                <div class="ink-frame blob-1 size-lg tilt-l"><SprigArt /><span class="style-tag">Botanical</span></div>
+                <figcaption class="gallery-caption">forearm sprig</figcaption>
+            </figure>
+            <figure>
+                <div class="ink-frame blob-2 size-wide"><FeatherArt /><span class="style-tag">Fine Line</span></div>
+                <figcaption class="gallery-caption">rib feather</figcaption>
+            </figure>
+            <figure>
+                <div class="ink-frame blob-5 size-wide"><ScriptWordArt Word="love" /><span class="style-tag">Script</span></div>
+                <figcaption class="gallery-caption">collarbone script</figcaption>
+            </figure>
+            <figure>
+                <div class="ink-frame blob-2 size-sm"><SparkleArt /><span class="style-tag">Fine Line</span></div>
+                <figcaption class="gallery-caption">wrist sparkle</figcaption>
+            </figure>
+            <figure>
+                <div class="ink-frame blob-2 size-sm"><DragonflyArt /><span class="style-tag">Fine Line</span></div>
+                <figcaption class="gallery-caption">dragonfly</figcaption>
+            </figure>
+            <figure>
+                <div class="ink-frame blob-3 size-wide tilt-l"><DesertArt /><span class="style-tag">Botanical</span></div>
+                <figcaption class="gallery-caption">desert side piece</figcaption>
+            </figure>
+            <figure>
+                <div class="ink-frame blob-1 size-sm"><MicroMachineArt /><span class="style-tag">Micro</span></div>
+                <figcaption class="gallery-caption">micro gem</figcaption>
+            </figure>
+            <figure>
+                <div class="ink-frame blob-5 size-md tilt-l"><HeartArt /><span class="style-tag">Fine Line</span></div>
+                <figcaption class="gallery-caption">sternum heart</figcaption>
+            </figure>
+            <figure>
+                <div class="ink-frame blob-2 size-lg tilt-r"><ButterflyArt /><span class="style-tag">Fine Line</span></div>
+                <figcaption class="gallery-caption">shoulder butterfly</figcaption>
+            </figure>
+            <figure>
+                <div class="ink-frame blob-4 size-sm tilt-l"><InfinityArt /><span class="style-tag">Micro</span></div>
+                <figcaption class="gallery-caption">finger infinity</figcaption>
+            </figure>
+            <figure>
+                <div class="ink-frame blob-2 size-sm"><CrownArt /><span class="style-tag">Micro</span></div>
+                <figcaption class="gallery-caption">inner arm crown</figcaption>
+            </figure>
+            <figure>
+                <div class="ink-frame blob-1 size-lg tilt-r"><RoseArt /><span class="style-tag">Botanical</span></div>
+                <figcaption class="gallery-caption">thigh rose</figcaption>
+            </figure>
+        </div>
+    </div>
+</section>
+
+<WaveDivider Fill="var(--cream)" Flip="true" />
+
+<section class="section">
+    <div class="section-inner">
+        <div class="split reveal">
+            <div class="split-media">
+                <div class="gallery-flow">
+                    <figure>
+                        <div class="ink-frame blob-2 size-md"><BrowArt /><span class="style-tag">PMU Brows</span></div>
+                        <figcaption class="gallery-caption">left brow</figcaption>
+                    </figure>
+                    <figure>
+                        <div class="ink-frame blob-4 size-md mirror"><BrowArt /><span class="style-tag">PMU Brows</span></div>
+                        <figcaption class="gallery-caption">right brow</figcaption>
+                    </figure>
+                </div>
+            </div>
+            <div>
+                <span class="eyebrow">Permanent Makeup</span>
+                <h2>Brows, Done With Precision</h2>
+                <p class="lede">Fine-line PMU brow work &mdash; natural, hair-stroke detail built to soften and define. Each set is custom-mapped to your natural brow shape, growth pattern, and face, for a result that looks like your brows, only fuller.</p>
+                <ul class="pmu-pricing">
+                    <li><span class="pmu-label">First Session</span><span class="pmu-price">$375</span></li>
+                    <li><span class="pmu-label">30-Day Touch-Up</span><span class="pmu-price">$125</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="center mt-lg">
+            <a class="ink-link" href="/book">Request Your Piece <span class="arrow">&rarr;</span></a>
+        </div>
+    </div>
+</section>
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("site.initReveal");
+        }
+    }
+}

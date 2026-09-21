@@ -1,0 +1,15 @@
+<svg class="wave-divider" viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    @if (Flip)
+    {
+        <path d="M0,100 C 360,20 1080,80 1440,10 L1440,0 L0,0 Z" fill="@Fill" />
+    }
+    else
+    {
+        <path d="M0,0 C 360,80 1080,20 1440,90 L1440,100 L0,100 Z" fill="@Fill" />
+    }
+</svg>
+
+@code {
+    [Parameter] public string Fill { get; set; } = "var(--cream-deep)";
+    [Parameter] public bool Flip { get; set; }
+}

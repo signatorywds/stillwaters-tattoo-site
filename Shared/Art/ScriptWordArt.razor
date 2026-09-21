@@ -1,0 +1,9 @@
+@using System
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <text x="100" y="112" text-anchor="middle" class="word-fill" font-family="'Alex Brush', cursive" font-size="44">@Word</text>
+    <path d="M60 130 C 80 138 120 138 140 130" />
+</svg>
+
+@code {
+    [Parameter] public string Word { get; set; } = "trust";
+}

@@ -1,0 +1,20 @@
+@inherits LayoutComponentBase
+@inject IJSRuntime JS
+
+<NavMenu />
+
+<main>
+    @Body
+</main>
+
+<SiteFooter />
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("site.initHeaderScroll");
+        }
+    }
+}

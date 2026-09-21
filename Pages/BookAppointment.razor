@@ -1,0 +1,173 @@
+@page "/book"
+@inject IJSRuntime JS
+@inject HttpClient Http
+@using System.ComponentModel.DataAnnotations
+
+<PageTitle>Book an Appointment — Still Waters Fine Line Tattoo</PageTitle>
+
+<section class="section">
+    <div class="book-watermark"><CloverArt /></div>
+    <div class="book-watermark-secondary"><MountainArt /></div>
+    <div class="book-watermark-tertiary"><InfinityArt /></div>
+    <div class="book-watermark-quaternary"><PawArt /></div>
+    <div class="section-inner reveal">
+        <div class="center max-prose mx-auto mb-lg">
+            <span class="eyebrow">Book a Session</span>
+            <h1>Let's Start Your Piece</h1>
+            <p class="lede">Share a few details about what you have in mind. Every request gets a personal reply within a day or two to talk design, placement, and timing before anything is booked.</p>
+            <p class="disclaimer">Still Waters Fine Line Tattoo only accepts clients who are 18 years of age or older. By submitting this form, you confirm that you meet this requirement.</p>
+        </div>
+
+        @if (!_submitted)
+        {
+            <EditForm Model="_request" OnValidSubmit="HandleSubmit" class="appt-form">
+                <DataAnnotationsValidator />
+
+                @if (_submitError)
+                {
+                    <p class="field-error center">Something went wrong sending your request. Please try again in a moment.</p>
+                }
+
+                <div class="field-row two">
+                    <div class="field">
+                        <label for="name">Name</label>
+                        <InputText id="name" @bind-Value="_request.Name" placeholder="Your name" maxlength="200" />
+                        <ValidationMessage For="() => _request.Name" class="field-error" />
+                    </div>
+                    <div class="field">
+                        <label for="contact">Email</label>
+                        <InputText id="contact" type="email" @bind-Value="_request.Contact" placeholder="your@email.com" maxlength="200" />
+                        <ValidationMessage For="() => _request.Contact" class="field-error" />
+                    </div>
+                </div>
+
+                <div class="field-row two">
+                    <div class="field">
+                        <label>Preferred Style</label>
+                        <InkSelect @bind-Value="_request.Style" Options="_styleOptions" />
+                    </div>
+                    <div class="field">
+                        <label for="placement">Placement on Body</label>
+                        <InputText id="placement" @bind-Value="_request.Placement" placeholder="e.g. forearm, behind the ear" maxlength="200" />
+                        <ValidationMessage For="() => _request.Placement" class="field-error" />
+                    </div>
+                </div>
+
+                <div class="field-row two">
+                    <div class="field">
+                        <label for="size">Approximate Size</label>
+                        <InputText id="size" @bind-Value="_request.Size" placeholder="e.g. 3 inches, palm-sized" maxlength="200" />
+                    </div>
+                    <div class="field">
+                        <label for="dates">Preferred Dates / Times</label>
+                        <InputText id="dates" @bind-Value="_request.PreferredDates" placeholder="e.g. weekday afternoons" maxlength="200" />
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="idea">Tell Me About Your Idea</label>
+                    <InputTextArea id="idea" @bind-Value="_request.Idea" placeholder="Inspiration, meaning, references — anything helps." maxlength="4000" />
+                    <ValidationMessage For="() => _request.Idea" class="field-error" />
+                </div>
+
+                <div class="submit-row center">
+                    <button type="submit" class="ink-link" disabled="@_submitting">
+                        @(_submitting ? "Sending…" : "Send Request") <span class="arrow">&rarr;</span>
+                    </button>
+                </div>
+            </EditForm>
+        }
+        else
+        {
+            <div class="confirm reveal is-visible">
+                <svg viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="38" />
+                    <path d="M32 52 L45 65 L70 36" />
+                </svg>
+                <span class="script-line">Thank you, @_request.Name.</span>
+                <p class="lede max-prose mx-auto confirm-detail">Your request has been noted. I'll follow up at @_request.Contact within a day or two to talk through your piece and find a time that works.</p>
+                <div class="mt-lg">
+                    <button class="ink-link" @onclick="StartOver">Submit Another Request</button>
+                </div>
+            </div>
+        }
+
+        <p class="disclaimer center mt-lg">If you have any questions about your booking, text (850) 890-2621 and I will answer your questions.</p>
+    </div>
+</section>
+
+@code {
+    private static readonly string[] _styleOptions =
+    {
+        "Botanical", "Fine Line", "Script", "Micro", "PMU", "Other / not sure yet"
+    };
+
+    private const string BookingApiUrl = "http://localhost:5196/api/bookings";
+
+    private BookingRequest _request = new();
+    private bool _submitted;
+    private bool _submitting;
+    private bool _submitError;
+
+    private async Task HandleSubmit()
+    {
+        _submitting = true;
+        _submitError = false;
+        try
+        {
+            var response = await Http.PostAsJsonAsync(BookingApiUrl, _request);
+            if (response.IsSuccessStatusCode)
+            {
+                _submitted = true;
+            }
+            else
+            {
+                _submitError = true;
+            }
+        }
+        catch
+        {
+            _submitError = true;
+        }
+        finally
+        {
+            _submitting = false;
+        }
+    }
+
+    private void StartOver()
+    {
+        _request = new BookingRequest();
+        _submitted = false;
+        _submitError = false;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("site.initReveal");
+        }
+    }
+
+    private class BookingRequest
+    {
+        [Required(ErrorMessage = "Please share your name.")]
+        public string Name { get; set; } = "";
+
+        [Required(ErrorMessage = "Let me know how to reach you.")]
+        [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
+        public string Contact { get; set; } = "";
+
+        public string Style { get; set; } = "Botanical";
+
+        [Required(ErrorMessage = "Where on your body is this piece going?")]
+        public string Placement { get; set; } = "";
+
+        public string Size { get; set; } = "";
+        public string PreferredDates { get; set; } = "";
+
+        [Required(ErrorMessage = "Tell me a little about the idea.")]
+        public string Idea { get; set; } = "";
+    }
+}
