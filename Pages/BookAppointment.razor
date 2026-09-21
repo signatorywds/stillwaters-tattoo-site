@@ -1,6 +1,7 @@
 @page "/book"
 @inject IJSRuntime JS
 @inject HttpClient Http
+@inject IConfiguration Configuration
 @using System.ComponentModel.DataAnnotations
 
 <PageTitle>Book an Appointment — Still Waters Fine Line Tattoo</PageTitle>
@@ -102,8 +103,6 @@
         "Botanical", "Fine Line", "Script", "Micro", "PMU", "Other / not sure yet"
     };
 
-    private const string BookingApiUrl = "http://localhost:5196/api/bookings";
-
     private BookingRequest _request = new();
     private bool _submitted;
     private bool _submitting;
@@ -115,7 +114,8 @@
         _submitError = false;
         try
         {
-            var response = await Http.PostAsJsonAsync(BookingApiUrl, _request);
+            var apiBaseUrl = Configuration["ApiBaseUrl"];
+            var response = await Http.PostAsJsonAsync($"{apiBaseUrl}/api/bookings", _request);
             if (response.IsSuccessStatusCode)
             {
                 _submitted = true;
