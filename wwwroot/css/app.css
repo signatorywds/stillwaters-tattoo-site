@@ -788,9 +788,22 @@ button {
     border-radius: 20px;
 }
 
-.portfolio-photo {
+.portfolio-figure {
     width: min(320px, 82vw);
-    border-radius: 18px;
+    margin: 0;
+}
+
+    .portfolio-figure .portfolio-photo {
+        width: 100%;
+        border-radius: 18px;
+    }
+
+@media (max-width: 640px) {
+    .portfolio-figure {
+        /* Sized on the <figure> itself, not the inner photo div: the figcaption's own
+           shrink-to-fit text width was otherwise influencing the figure's flex-item size. */
+        width: calc(50vw - 2rem);
+    }
 }
 
     .photo-frame-clip {
