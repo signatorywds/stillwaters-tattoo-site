@@ -7,6 +7,7 @@
     <ul class="nav-links">
         <li><NavLink href="/" Match="NavLinkMatch.All">Home</NavLink></li>
         <li><NavLink href="/portfolio">Portfolio</NavLink></li>
+        <li><a href="/portfolio#flash">Flash</a></li>
         <li><NavLink href="/book">Book</NavLink></li>
         <li>
             <a class="nav-social" href="https://instagram.com/stillwaters.tattoo" target="_blank" rel="noopener" aria-label="Still Waters Fine Line Tattoo on Instagram">
@@ -28,6 +29,7 @@
 <nav class="nav-mobile @(_open ? "open" : "")">
     <NavLink href="/" Match="NavLinkMatch.All" @onclick="Close">Home</NavLink>
     <NavLink href="/portfolio" @onclick="Close">Portfolio</NavLink>
+    <a href="/portfolio#flash" @onclick="Close">Flash</a>
     <NavLink href="/book" @onclick="Close">Book</NavLink>
     <a href="https://instagram.com/stillwaters.tattoo" target="_blank" rel="noopener">Instagram</a>
 </nav>

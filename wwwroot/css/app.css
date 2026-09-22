@@ -748,7 +748,8 @@ button {
         transform: scaleX(-1);
     }
 
-    .ink-frame .style-tag {
+    .ink-frame .style-tag,
+    .photo-frame .style-tag {
         position: absolute;
         left: 50%;
         bottom: 16%;
@@ -769,7 +770,8 @@ button {
         transition: opacity .3s ease, transform .3s ease;
     }
 
-    .ink-frame:hover .style-tag {
+    .ink-frame:hover .style-tag,
+    .photo-frame:hover .style-tag {
         opacity: 1;
         transform: translate(-50%, 0);
     }
@@ -963,6 +965,60 @@ button {
     margin-top: .9rem;
     font-family: var(--script);
     font-size: 1.15rem;
+    color: var(--ink-soft);
+}
+
+/* ---------- Flash sheet ---------- */
+.flash-sheet {
+    max-width: 960px;
+    margin: 0 auto;
+    background: var(--cream);
+    border: 1px solid var(--ink-hair);
+    box-shadow: 0 40px 70px -36px rgba(34, 28, 23, .4);
+    padding: clamp(.5rem, 2vw, 1.5rem);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+@media (min-width: 640px) {
+    .flash-sheet {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.flash-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .7rem;
+    padding: 1.7rem 1rem;
+    border: 1px solid var(--ink-hair);
+    margin: -.5px;
+}
+
+    .flash-item svg {
+        width: 58px;
+        height: 58px;
+        stroke: var(--ink);
+        fill: none;
+        stroke-width: 1.6;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    .flash-item .flash-label {
+        text-transform: uppercase;
+        letter-spacing: .16em;
+        font-size: .62rem;
+        color: var(--ink-faint);
+    }
+
+.flash-invite {
+    text-align: center;
+    margin-top: 2.25rem;
+    font-family: var(--script);
+    font-size: 1.4rem;
     color: var(--ink-soft);
 }
 
