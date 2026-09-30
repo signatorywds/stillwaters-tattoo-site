@@ -1,0 +1,68 @@
+@page "/brows"
+@inject IJSRuntime JS
+
+<PageTitle>Permanent Brows — Still Waters Fine Line Tattoo</PageTitle>
+
+<section class="section">
+    <div class="section-inner center reveal max-prose mx-auto">
+        <span class="eyebrow">Permanent Makeup</span>
+        <h1>Brows, Done With Precision</h1>
+        <p class="lede">Fine-line PMU brow work &mdash; natural, hair-stroke detail built to soften and define. Each set is custom-mapped to your natural brow shape, growth pattern, and face, for a result that looks like your brows, only fuller.</p>
+    </div>
+</section>
+
+<WaveDivider Fill="var(--cream-deep)" />
+
+<section class="section tone-deep">
+    <div class="section-inner">
+        <div class="section-head align-left">
+            <span class="eyebrow">Before &amp; After</span>
+            <h2>Real Results</h2>
+        </div>
+
+        <div class="split split-top reveal">
+            <div class="brow-stack">
+                <figure class="brow-figure">
+                    <ZoomableImage Src="Assets/Photos/Brows/brows-before-after-1.jpg" Alt="Before and after permanent makeup brows, showing softly defined hair-stroke brows after treatment">
+                        <div class="photo-frame brow-photo">
+                            <div class="photo-frame-clip"><img src="Assets/Photos/Brows/brows-before-after-1.jpg" alt="Before and after permanent makeup brows, showing softly defined hair-stroke brows after treatment" loading="lazy" /></div>
+                        </div>
+                    </ZoomableImage>
+                    <figcaption class="gallery-caption">before &amp; after</figcaption>
+                </figure>
+                <figure class="brow-figure">
+                    <ZoomableImage Src="Assets/Photos/Brows/brows-before-after-2.jpg" Alt="Before and after permanent makeup brows, showing fuller, evenly shaped brows after treatment">
+                        <div class="photo-frame brow-photo">
+                            <div class="photo-frame-clip"><img src="Assets/Photos/Brows/brows-before-after-2.jpg" alt="Before and after permanent makeup brows, showing fuller, evenly shaped brows after treatment" loading="lazy" /></div>
+                        </div>
+                    </ZoomableImage>
+                    <figcaption class="gallery-caption">before &amp; after</figcaption>
+                </figure>
+            </div>
+
+            <div class="brow-details">
+                <span class="eyebrow">Pricing</span>
+                <ul class="pmu-pricing">
+                    <li><span class="pmu-label">First Session</span><span class="pmu-price">$375</span></li>
+                    <li><span class="pmu-label">30-Day Touch-Up</span><span class="pmu-price">$125</span></li>
+                </ul>
+
+                <h3>Your Appointment</h3>
+                <p>We start by mapping your brows to your features and choosing a pigment that suits your skin and hair. From there, the shape is built in fine hair strokes, one at a time, so the result reads as natural as possible.</p>
+                <p>Brows settle over the weeks that follow, and a touch-up about 30 days later refines the shape and color once everything has healed.</p>
+
+                <a class="ink-link" href="/book">Book Your Brows <span class="arrow">&rarr;</span></a>
+            </div>
+        </div>
+    </div>
+</section>
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("site.initReveal");
+        }
+    }
+}

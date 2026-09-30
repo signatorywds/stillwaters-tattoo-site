@@ -8,6 +8,24 @@ window.site = {
         window.addEventListener('scroll', onScroll, { passive: true });
     },
 
+    // localStorage throws in private mode / when site data is blocked, so both of these
+    // degrade to "no flag stored" rather than breaking the caller.
+    getFlag: function (key) {
+        try {
+            return window.localStorage.getItem(key);
+        } catch {
+            return null;
+        }
+    },
+
+    setFlag: function (key, value) {
+        try {
+            window.localStorage.setItem(key, value);
+        } catch {
+            /* nothing to do - the popup just shows again next visit */
+        }
+    },
+
     initReveal: function () {
         const targets = document.querySelectorAll('.reveal:not([data-observed])');
         if (!targets.length) return;

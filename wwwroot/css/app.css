@@ -806,6 +806,83 @@ button {
     }
 }
 
+.brow-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.brow-figure {
+    width: min(460px, 100%);
+    margin: 0;
+}
+
+    .brow-figure .brow-photo {
+        width: 100%;
+        border-radius: 18px;
+    }
+
+    /* Natural height, not the .photo-frame default cover-crop: cropping a
+       before/after shot would cut off half the comparison. */
+    .brow-figure .brow-photo img {
+        height: auto;
+    }
+
+.zoom-button {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: zoom-in;
+}
+
+.brow-details h3 {
+    margin-top: 2.5rem;
+}
+
+.brow-details .ink-link {
+    margin-top: 1.5rem;
+}
+
+/* ---------- Lightbox ---------- */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(1rem, 4vw, 3rem);
+    background: rgba(34, 28, 23, .9);
+    cursor: zoom-out;
+}
+
+    .lightbox img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        border-radius: 6px;
+        box-shadow: 0 40px 80px -30px rgba(0, 0, 0, .7);
+    }
+
+.lightbox-close {
+    position: absolute;
+    top: clamp(.75rem, 2vw, 1.5rem);
+    right: clamp(.75rem, 2vw, 1.5rem);
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(247, 242, 232, .15);
+    color: var(--cream);
+    font-size: 1.75rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
     .photo-frame-clip {
         width: 100%;
         height: 100%;
@@ -884,6 +961,10 @@ button {
     grid-template-columns: 1fr;
     gap: 2.25rem;
     align-items: center;
+}
+
+.split.split-top {
+    align-items: start;
 }
 
 @media (min-width: 860px) {
@@ -987,49 +1068,170 @@ button {
 }
 
 /* ---------- Flash sheet ---------- */
-.flash-sheet {
-    max-width: 960px;
+.flash-gallery {
+    max-width: 1000px;
     margin: 0 auto;
-    background: var(--cream);
-    border: 1px solid var(--ink-hair);
-    box-shadow: 0 40px 70px -36px rgba(34, 28, 23, .4);
-    padding: clamp(.5rem, 2vw, 1.5rem);
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    /* One per row on phones: each sheet holds ~24 small designs, so a half-width
+       thumbnail is too small to actually pick a piece from. */
+    grid-template-columns: 1fr;
+    align-items: start;
+    gap: clamp(1.25rem, 3vw, 2.25rem);
 }
 
-@media (min-width: 640px) {
-    .flash-sheet {
-        grid-template-columns: repeat(4, 1fr);
+@media (min-width: 560px) {
+    .flash-gallery {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
-.flash-item {
+@media (min-width: 860px) {
+    .flash-gallery {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.flash-sheet-figure {
+    margin: 0;
+}
+
+.flash-sheet-photo {
+    background: #fff;
+    padding: clamp(.4rem, 1vw, .7rem);
+    border: 1px solid var(--ink-hair);
+    box-shadow: 0 30px 55px -30px rgba(34, 28, 23, .45);
+}
+
+    .flash-sheet-photo img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+/* ---------- Flash sale banner ---------- */
+.flash-sale {
+    max-width: 640px;
+    margin: 0 auto clamp(2.25rem, 5vw, 3.25rem);
+    padding: clamp(1.75rem, 4vw, 2.5rem);
+    text-align: center;
+    background: var(--cream);
+    border: 1px solid var(--gold);
+    box-shadow: 0 30px 55px -32px rgba(34, 28, 23, .35);
+}
+
+.flash-sale-title {
+    font-family: var(--serif);
+    font-size: clamp(1.9rem, 5vw, 2.4rem);
+    line-height: 1.1;
+    margin: .4rem 0 .9rem;
+}
+
+.flash-sale-deal {
+    font-size: 1.1rem;
+    margin-bottom: .9rem;
+}
+
+.flash-sale-note {
+    font-size: .88rem;
+    line-height: 1.7;
+    color: var(--ink-faint);
+    margin-bottom: 1.5rem;
+}
+
+    .flash-sale-deal strong,
+    .sale-deal strong {
+        font-weight: 500;
+        color: var(--ink);
+        border-bottom: 2px solid var(--gold);
+    }
+
+/* ---------- Sale popup ---------- */
+.sale-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 300;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: .7rem;
-    padding: 1.7rem 1rem;
-    border: 1px solid var(--ink-hair);
-    margin: -.5px;
+    padding: clamp(1rem, 4vw, 2rem);
+    background: rgba(34, 28, 23, .75);
+    animation: sale-fade .3s ease;
 }
 
-    .flash-item svg {
-        width: 58px;
-        height: 58px;
-        stroke: var(--ink);
-        fill: none;
-        stroke-width: 1.6;
-        stroke-linecap: round;
-        stroke-linejoin: round;
+.sale-modal {
+    position: relative;
+    width: min(440px, 100%);
+    max-height: 88vh;
+    overflow-y: auto;
+    padding: clamp(2.25rem, 6vw, 3rem) clamp(1.5rem, 5vw, 2.5rem);
+    text-align: center;
+    background: var(--cream);
+    border: 1px solid var(--gold);
+    box-shadow: 0 50px 90px -40px rgba(0, 0, 0, .65);
+    animation: sale-rise .4s ease;
+}
+
+@keyframes sale-fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes sale-rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: none; }
+}
+
+.sale-title {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 7vw, 2.6rem);
+    line-height: 1.1;
+    margin: .4rem 0 0;
+}
+
+.sale-rule {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1.1rem 0;
+}
+
+    .sale-rule span {
+        width: 64px;
+        height: 1px;
+        background: var(--gold);
     }
 
-    .flash-item .flash-label {
-        text-transform: uppercase;
-        letter-spacing: .16em;
-        font-size: .62rem;
-        color: var(--ink-faint);
+.sale-deal {
+    font-family: var(--serif);
+    font-size: 1.35rem;
+    line-height: 1.6;
+    margin-bottom: 1.1rem;
+}
+
+.sale-note {
+    font-size: .85rem;
+    line-height: 1.7;
+    color: var(--ink-faint);
+    margin-bottom: 1.75rem;
+}
+
+.sale-close {
+    position: absolute;
+    top: .6rem;
+    right: .75rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--ink-faint);
+    font-size: 1.6rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+    .sale-close:hover {
+        color: var(--ink);
     }
 
 .flash-invite {
@@ -1414,7 +1616,10 @@ button {
 
     .reveal.is-visible {
         opacity: 1;
-        transform: translateY(0);
+        /* `none`, not translateY(0): any transform value makes this element the
+           containing block for position:fixed descendants, which mis-sizes the
+           lightbox overlay rendered inside revealed galleries. */
+        transform: none;
     }
 
 /* ---------- Type scale utilities ---------- */
@@ -1454,4 +1659,8 @@ button {
 .section-head {
     text-align: center;
     margin-bottom: 2rem;
+}
+
+.section-head.align-left {
+    text-align: left;
 }

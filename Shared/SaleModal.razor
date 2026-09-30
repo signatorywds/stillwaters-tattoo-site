@@ -1,0 +1,48 @@
+@inject IJSRuntime JS
+
+@if (_show)
+{
+    <div class="sale-backdrop" @onclick="DismissAsync">
+        <div class="sale-modal" @onclick:stopPropagation="true" role="dialog" aria-modal="true" aria-labelledby="sale-modal-title">
+            <button type="button" class="sale-close" @onclick="DismissAsync" aria-label="Close">&times;</button>
+
+            <span class="eyebrow">Friday, October 30</span>
+            <h2 id="sale-modal-title" class="sale-title">$50 Flash Friday</h2>
+            <div class="sale-rule"><span></span></div>
+
+            <p class="sale-deal">Tiny tattoos <strong>$30</strong> on the 30th<br />or <strong>2 for $50</strong></p>
+
+            <p class="sale-note">
+                By appointment only. If you want a tiny tattoo not shown, let me know when booking
+                and I&rsquo;ll include it! Stencils will be pre-sized and ready to go.
+            </p>
+
+            <a class="ink-link" href="/portfolio#flash" @onclick="DismissAsync">See the Designs <span class="arrow">&rarr;</span></a>
+        </div>
+    </div>
+}
+
+@code {
+    // Versioned by sale date so a future promo shows again for people who dismissed this one.
+    private const string DismissKey = "swt-sale-flash-friday-2026-10-30";
+
+    private bool _show;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+
+        var dismissed = await JS.InvokeAsync<string?>("site.getFlag", DismissKey);
+        if (dismissed is not null) return;
+
+        await Task.Delay(2200);
+        _show = true;
+        StateHasChanged();
+    }
+
+    private async Task DismissAsync()
+    {
+        _show = false;
+        await JS.InvokeVoidAsync("site.setFlag", DismissKey, "1");
+    }
+}

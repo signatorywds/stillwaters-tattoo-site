@@ -1,0 +1,23 @@
+<button type="button" class="zoom-button" @onclick="Open" aria-label="@($"Enlarge image: {Alt}")">
+    @ChildContent
+</button>
+
+@if (_open)
+{
+    <div class="lightbox" @onclick="Close">
+        <button type="button" class="lightbox-close" aria-label="Close">&times;</button>
+        <img src="@Src" alt="@Alt" />
+    </div>
+}
+
+@code {
+    [Parameter, EditorRequired] public string Src { get; set; } = "";
+    [Parameter, EditorRequired] public string Alt { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private bool _open;
+
+    private void Open() => _open = true;
+
+    private void Close() => _open = false;
+}
