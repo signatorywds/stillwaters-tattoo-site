@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# _framework holds the WebAssembly runtime the site renders with.
+# It must stay crawlable or Google cannot render any page.
+
+Sitemap: https://stillwaterstattoos.com/sitemap.xml

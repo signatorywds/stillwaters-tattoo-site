@@ -15,6 +15,13 @@
     <link rel="stylesheet" href="css/app.css" />
     <!-- If you add any scoped CSS files, uncomment the following to load them
     <link href="StillWatersTattoo.styles.css" rel="stylesheet" /> -->
+    <link rel="canonical" href="https://stillwaterstattoos.com/" />
+    <noscript>
+        <!-- Without JS the app never boots, so drop the loading overlay and show the fallback instead. -->
+        <style>
+            .boot-screen { display: none; }
+        </style>
+    </noscript>
     <script type="importmap"></script>
 </head>
 
@@ -27,6 +34,38 @@
                 <circle r="40%" cx="50%" cy="50%" />
             </svg>
             <div class="loading-progress-text"></div>
+        </div>
+
+        <!--
+            Pre-boot content. Blazor replaces everything in #app once the runtime starts,
+            so visitors never read this - but search crawlers and link previews do, and it
+            is all anyone without JavaScript would get. Keep it true to the rendered site.
+        -->
+        <div class="static-fallback">
+            <h1>Still Waters Fine Line Tattoo</h1>
+            <p class="static-tagline">Beauty for the body, meaning for the soul.</p>
+
+            <p>
+                Fine line tattooing by Tabitha in Peoria, Arizona, by appointment only.
+                Delicate, intentional work designed from scratch for the person wearing it.
+            </p>
+
+            <h2>What I tattoo</h2>
+            <p>Botanical &middot; Fine Line &middot; Script &middot; Micro &middot; Permanent Brows</p>
+
+            <h2>Permanent brows</h2>
+            <p>
+                Fine-line PMU brow work with natural hair-stroke detail, custom-mapped to your
+                brow shape and face. First session $375, 30-day touch-up $125.
+            </p>
+
+            <nav class="static-links">
+                <a href="/portfolio">Portfolio</a>
+                <a href="/portfolio#flash">Flash designs</a>
+                <a href="/brows">Permanent brows</a>
+                <a href="/book">Book an appointment</a>
+                <a href="https://instagram.com/stillwaters.tattoo" rel="noopener">Instagram</a>
+            </nav>
         </div>
     </div>
 

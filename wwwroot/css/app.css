@@ -92,6 +92,41 @@ button {
     background: var(--cream);
 }
 
+/* Pre-boot content in index.html. Normally sits behind the .boot-screen overlay and is
+   replaced the moment Blazor starts; it only becomes visible with JavaScript disabled. */
+.static-fallback {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: clamp(2.5rem, 6vw, 4.5rem) 1.5rem;
+    font-family: var(--sans);
+    font-weight: 300;
+    color: var(--ink-soft);
+    line-height: 1.75;
+}
+
+    .static-fallback h1,
+    .static-fallback h2 {
+        font-family: var(--serif);
+        color: var(--ink);
+    }
+
+    .static-fallback .static-tagline {
+        font-family: var(--script);
+        font-size: 1.4rem;
+        color: var(--ink-soft);
+    }
+
+.static-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    margin-top: 2rem;
+}
+
+    .static-links a {
+        color: var(--ink);
+    }
+
 .boot-mark {
     font-family: var(--serif);
     font-style: italic;
