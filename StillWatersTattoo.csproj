@@ -12,4 +12,100 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.10" PrivateAssets="all" />
   </ItemGroup>
 
+  <!--
+    Search engines index the published index.html before the WebAssembly runtime boots, and every
+    route is served from that one file. This task stamps out a copy per route with its own title,
+    description, canonical and pre-boot content, so the four pages are distinct to a crawler.
+    It runs after publish so the copies carry the same fingerprinted scripts and import map.
+  -->
+  <UsingTask TaskName="GenerateSeoPage"
+             TaskFactory="RoslynCodeTaskFactory"
+             AssemblyFile="$(MSBuildToolsPath)/Microsoft.Build.Tasks.Core.dll">
+    <ParameterGroup>
+      <ShellPath ParameterType="System.String" Required="true" />
+      <FragmentPath ParameterType="System.String" Required="true" />
+      <OutputPath ParameterType="System.String" Required="true" />
+      <PageTitle ParameterType="System.String" Required="true" />
+      <PageDescription ParameterType="System.String" Required="true" />
+      <CanonicalUrl ParameterType="System.String" Required="true" />
+    </ParameterGroup>
+    <Task>
+      <Code Type="Fragment" Language="cs"><![CDATA[
+        const string marker = "<div id=\"seo-content\"></div>";
+        const string descPrefix = "<meta name=\"description\" content=\"";
+
+        var shell = System.IO.File.ReadAllText(ShellPath);
+
+        if (shell.IndexOf(marker, System.StringComparison.Ordinal) < 0)
+        {
+            Log.LogError("index.html has no " + marker + " placeholder, so no pre-boot content would be published.");
+            return false;
+        }
+
+        shell = shell.Replace(marker, System.IO.File.ReadAllText(FragmentPath));
+
+        var titleStart = shell.IndexOf("<title>", System.StringComparison.Ordinal);
+        var titleEnd = shell.IndexOf("</title>", System.StringComparison.Ordinal);
+        if (titleStart < 0 || titleEnd < titleStart)
+        {
+            Log.LogError("index.html has no <title> to replace.");
+            return false;
+        }
+        shell = shell.Substring(0, titleStart) + "<title>" + PageTitle + shell.Substring(titleEnd);
+
+        var descStart = shell.IndexOf(descPrefix, System.StringComparison.Ordinal);
+        if (descStart < 0)
+        {
+            Log.LogError("index.html has no description meta tag to replace.");
+            return false;
+        }
+        var valueStart = descStart + descPrefix.Length;
+        var valueEnd = shell.IndexOf('"', valueStart);
+        shell = shell.Substring(0, valueStart) + PageDescription + shell.Substring(valueEnd);
+
+        shell = shell.Replace("</head>", "    <link rel=\"canonical\" href=\"" + CanonicalUrl + "\" />\n</head>");
+
+        var dir = System.IO.Path.GetDirectoryName(OutputPath);
+        if (!string.IsNullOrEmpty(dir)) System.IO.Directory.CreateDirectory(dir);
+        System.IO.File.WriteAllText(OutputPath, shell);
+        Log.LogMessage(Microsoft.Build.Framework.MessageImportance.High, "SEO page written: " + OutputPath);
+      ]]></Code>
+    </Task>
+  </UsingTask>
+
+  <Target Name="GenerateSeoPages" AfterTargets="Publish">
+    <PropertyGroup>
+      <_SeoDir>$(MSBuildProjectDirectory)/seo/</_SeoDir>
+      <_PubWww>$(PublishDir)wwwroot/</_PubWww>
+      <_ShellCopy>$(IntermediateOutputPath)seo-shell.html</_ShellCopy>
+    </PropertyGroup>
+
+    <!-- Keep an untouched copy of the published shell; each page is generated from it. -->
+    <Copy SourceFiles="$(_PubWww)index.html" DestinationFiles="$(_ShellCopy)" />
+
+    <GenerateSeoPage ShellPath="$(_ShellCopy)" FragmentPath="$(_SeoDir)home.html"
+                     OutputPath="$(_PubWww)index.html"
+                     PageTitle="Still Waters Fine Line Tattoo - Peoria, AZ"
+                     PageDescription="Fine line tattoo studio in Peoria, Arizona. Botanical, fine line, script and micro tattoos plus permanent brows, by appointment with Tabitha."
+                     CanonicalUrl="https://stillwaterstattoos.com/" />
+
+    <GenerateSeoPage ShellPath="$(_ShellCopy)" FragmentPath="$(_SeoDir)portfolio.html"
+                     OutputPath="$(_PubWww)portfolio/index.html"
+                     PageTitle="Portfolio and Flash Designs - Still Waters Fine Line Tattoo"
+                     PageDescription="Healed fine line tattoo work and ready-to-book flash designs from Still Waters Fine Line Tattoo in Peoria, Arizona."
+                     CanonicalUrl="https://stillwaterstattoos.com/portfolio" />
+
+    <GenerateSeoPage ShellPath="$(_ShellCopy)" FragmentPath="$(_SeoDir)brows.html"
+                     OutputPath="$(_PubWww)brows/index.html"
+                     PageTitle="Permanent Brows - Still Waters Fine Line Tattoo"
+                     PageDescription="Fine-line permanent makeup brows with natural hair-stroke detail in Peoria, Arizona. First session $375, 30-day touch-up $125."
+                     CanonicalUrl="https://stillwaterstattoos.com/brows" />
+
+    <GenerateSeoPage ShellPath="$(_ShellCopy)" FragmentPath="$(_SeoDir)book.html"
+                     OutputPath="$(_PubWww)book/index.html"
+                     PageTitle="Book an Appointment - Still Waters Fine Line Tattoo"
+                     PageDescription="Request a fine line tattoo or permanent brow appointment with Still Waters Fine Line Tattoo in Peoria, Arizona. By appointment only."
+                     CanonicalUrl="https://stillwaterstattoos.com/book" />
+  </Target>
+
 </Project>
